@@ -5,7 +5,7 @@ using namespace std;
 
 int main() {
 	double marketValue;
-	double tax = 0; 
+	double tax = 0;
 	int round_tax = 0;
 	string identification;
 	string state;
@@ -67,16 +67,10 @@ int main() {
 		}
 	}
 
-	round_tax = tax * 10000;  // judge if the forth decimal >=5 and round the tax to the third decimal
-	round_tax = round_tax % 10;
-	if (round_tax >= 5) {            
-		tax += 0.001;
-	}
-
 	cout.setf(ios::fixed);  // set the decimal point to exactly three
 	cout.precision(3);
 
 
 	cout << "The tax for " << identification << " is $" << tax << " million.\n";
-	
+
 }
