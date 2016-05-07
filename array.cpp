@@ -114,12 +114,16 @@ int removeDups(string a[], int n) {
 	if ( n < 0 )  // If the size of input array less than zero, or 
 		return -1;
 	int total = n;
-	for (int i = 0; i < n-1; i++) {
+	int i = 0;
+	for (i; i < total-1; i++) {
 		if (a[i] == a[i + 1])
 			for (int j = i; j < total - 1; j++) {
 				a[j] == a[j + 1];
-				total--;
+				
+				
 			}
+		total--;
+		i--;
 	}
 	return total;
 };
