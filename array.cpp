@@ -36,9 +36,9 @@ bool findFirstSequence(const string a[], int n, string target, int& begin, int& 
 		if (a[i] == target) {
 			begin = i;
 			end = i;
-			for (int j = i; j < n; j++) {
-				if ((j + 1) != n) {
-					if (a[j + 1] == target)
+			for (int j = i+1; j < n; j++) {
+				if (j!= n) {
+					if (a[j] == target)
 						end = j;
 					else
 						break;
@@ -136,9 +136,9 @@ bool subsequence(const string a1[], int n1, const string a2[], int n2) {
 				pos = j + 1;
 				break;
 			}
+			else if (i == n2 - 1 && j == n1 - 1)
+				return false;
 		}
-		if (pos == (n1 - 1) || i != (n2 - 1))
-			return false;
 	}
 	return true;
 };
@@ -167,7 +167,7 @@ int mingle(const string a1[], int n1, const string a2[], int n2, string result[]
 			order_a2++;
 			if (order_a2 == n2) {
 				for (int j = order_a1; j < n1; j++) {
-					result[order_result] = a1[order_a1];
+					result[order_result] = a1[j];
 					order_result++;
 				}
 			}
@@ -178,7 +178,7 @@ int mingle(const string a1[], int n1, const string a2[], int n2, string result[]
 			order_a1++;
 			if (order_a1 == n1) {
 				for (int j = order_a2; j < n2; j++) {
-					result[order_result] = a2[order_a2];
+					result[order_result] = a2[j];
 					order_result++;
 				}
 			}
