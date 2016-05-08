@@ -115,15 +115,13 @@ int removeDups(string a[], int n) {
 		return -1;
 	int total = n;
 	int i = 0;
-	for (i; i < total-1; i++) {
-		if (a[i] == a[i + 1])
-			for (int j = i; j < total - 1; j++) {
-				a[j] == a[j + 1];
-				
-				
-			}
-		total--;
-		i--;
+	for (i; i < total-1; i++){
+		if (a[i] == a[i + 1]) {
+			for (int j = i; j < total - 1; j++)
+				a[j] = a[j + 1];
+			total--;
+			i--;
+		}
 	}
 	return total;
 };
@@ -150,6 +148,7 @@ bool subsequence(const string a1[], int n1, const string a2[], int n2) {
 int mingle(const string a1[], int n1, const string a2[], int n2, string result[], int max) {
 	//int size_a1 = sizeof(a1) / sizeof(a1[0]); // Calculate the size of array a1.
 	//int size_a2 = sizeof(a2) / sizeof(a2[0]); // Calculate the size of array a2.
+	
 	if ( n1 < 0 || n2 < 0 || (n1+n2) > max)  // If the size of input array less than zero, or 
 		return -1;
 	for (int i = 0; i < n1-1; i++) {
@@ -163,29 +162,34 @@ int mingle(const string a1[], int n1, const string a2[], int n2, string result[]
 	int order_a1 = 0;
 	int order_a2 = 0;
 	int order_result = 0;
-	result [max];
+	//result[max];
 	for (int i = 0; i < (n1 + n2); i++) {
+		if (order_a2 == n2) {
+			for (int j = order_a1; j < n1; j++) {
+				result[order_result] = a1[j];
+				order_result++;
+			}
+			return (n1 + n2);
+
+		}
+		if (order_a1 == n1) {
+			for (int j = order_a2; j < n2; j++) {
+				result[order_result] = a2[j];
+				order_result++;
+			}
+			return (n1 + n2);
+		}
 		if (a1[order_a1] > a2[order_a2]) {
-			result [order_result]= a2[order_a2];
+			result[order_result] = a2[order_a2];
 			order_result++;
 			order_a2++;
-			if (order_a2 == n2) {
-				for (int j = order_a1; j < n1; j++) {
-					result[order_result] = a1[j];
-					order_result++;
-				}
-			}
+			
 		}
 		else {
 			result[order_result] = a1[order_a1];
 			order_result++;
 			order_a1++;
-			if (order_a1 == n1) {
-				for (int j = order_a2; j < n2; j++) {
-					result[order_result] = a2[j];
-					order_result++;
-				}
-			}
+			
 		}
 	}
 	return (n1 + n2);
@@ -207,6 +211,7 @@ int divide(string a[], int n, string divider) {
 					a[i] = a[j];
 					a[j] = temp;
 					pos++;
+					j++;
 				}
 			}
 			return pos;
@@ -217,7 +222,6 @@ int divide(string a[], int n, string divider) {
 int main() {
 	// Test
 	string h[7] = { "petyr", "jaime", "jon", "daenerys", "", "tyrion", "jon" };
-	
 	assert(tally(h, 7, "jon") == 2);
 	assert(tally(h, 7, "") == 1);
 	assert(tally(h, 7, "theon") == 0);
