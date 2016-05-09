@@ -36,7 +36,7 @@ bool findFirstSequence(const string a[], int n, string target, int& begin, int& 
 		if (a[i] == target) {
 			begin = i;
 			end = i;
-			for (int j = i+1; j < n; j++) {
+			for (int j = i; j < n; j++) {
 				if (j!= n) {
 					if (a[j] == target)
 						end = j;
@@ -54,7 +54,7 @@ bool findFirstSequence(const string a[], int n, string target, int& begin, int& 
 //Return the position of a string in the array such that that string is <= every string in the array.If there is more than one such string, return the smallest position of such a string.Return −1 if the array has no elements.
 int positionOfMin(const string a[], int n) {
 	//int size = sizeof(a) / sizeof(a[0]); // Calculate the size of array a.
-	if (n < 0 )  // If the size of input array less than zero, or 
+	if (n <= 0 )  // If the size of input array less than zero, or 
 		return -1;
 	int min = 0;
 	for (int i = 1; i < n; i++) {
@@ -131,6 +131,8 @@ bool subsequence(const string a1[], int n1, const string a2[], int n2) {
 	//int size_a2 = sizeof(a2) / sizeof(a2[0]); // Calculate the size of array a2.
 	if ( n1 < 0 || n2 < 0 || n2 > n1)  // If the size of input array less than zero, or 
 		return false;
+	if (n2 == 0)
+		return true;
 	int pos = 0;
 	for (int i = 0; i < n2; i++) {	
 		for (int j = pos; j < n1; j++) {
@@ -200,22 +202,22 @@ int divide(string a[], int n, string divider) {
 	//int size = sizeof(a) / sizeof(a[0]); // Calculate the size of array a.
 	if (n < 0)  // If the size of input array less than zero, or 
 		return -1;
-	int pos;
+	int pos = 0;
 	string temp;
 	for (int i = 0; i < n; i++) {
-		if (a[i] > divider) {
+		if (a[i] >= divider) {
 			pos = i;
 			for (int j = i+1; j < n; j++) {
-				if (a[j] <= divider) {
+				if (a[j] < divider) {
 					temp = a[i];
 					a[i] = a[j];
 					a[j] = temp;
 					pos++;
-					j++;
+					
 				}
 			}
-			return pos;
-		}
+		return pos;
+		}	
 	}
 	return n;
 };
@@ -261,7 +263,7 @@ int main() {
 	assert(findFirstSequence(a5, 8, "petyr", bg, en) && bg == 0 && en == 1);
 	assert(findFirstSequence(a5, 1, "petyr", bg, en) && bg == 0 && en == 0);
 	assert(findFirstSequence(a5, 8, "jon", bg, en) && bg == 2 && en == 2);
-	assert(findFirstSequence(a5, 8, "Jon", bg, en) && bg == -1 && en == -1);
+	assert(!findFirstSequence(a5, 8, "Jon", bg, en));
 
 
 	string g[4] = { "petyr", "jaime", "daenerys", "tyrion" };
@@ -279,29 +281,43 @@ int main() {
 	//assert(disagree(h, 10, g, 4) == 2);  //cannot detect the error 
 	assert(disagree(h, 4, g, 4) == 2);
 	assert(disagree(g, 3, g, 4) == 3);
-	assert(disagree(h, 0, g, 4) == -1);
+	assert(disagree(h, 0, g, 4) == 0);
 
 	//assert(subsequence(h, 10, g, 4));  //cannot detect the error 
 	assert(subsequence(h, 7, g, 4));
-	assert(subsequence(h, 0, g, 4)); //the empty sequence is a subsequence of any sequence
+	assert(!subsequence(h, 0, g, 4)); 
+	assert(subsequence(h, 4, g, 0)); //the empty sequence is a subsequence of any sequence
 
 	string a9[1] = { "petyr" };
+	//assert(moveToEnd(a9, 10, 0) == 0 && a9[0] == "petyr"); //cannot detect the error 
 	assert(moveToEnd(g, 0, 1) == -1);
 	assert(moveToEnd(g, 4, 1) == 1 && g[1] == "daenerys" && g[3] == "jaime");
 	assert(moveToEnd(a9, 1, 0) == 0 && a9[0] == "petyr");
 
 	string f[4] = { "daenerys", "tyrion", "jon", "jaime" };
+	//assert(moveToBeginning(f, 10, 2) == -1); //cannot detect the error 
+	assert(moveToBeginning(f, 0, 2) == -1);
 	assert(moveToBeginning(f, 4, 2) == 2 && f[0] == "jon" && f[2] == "tyrion");
+	assert(moveToBeginning(a9, 1, 0) == 0 && a9[0] == "petyr");
 
 	string e[5] = { "daenerys", "daenerys", "daenerys", "jon", "jon" };
+	string a10[5] = { "daenerys", "jon", "daenerys", "jon", "daenerys" };
+	//assert(removeDups(e, 10) == 2 && e[1] == "jon"); //cannot detect the error 
 	assert(removeDups(e, 5) == 2 && e[1] == "jon");
+	assert(removeDups(a10, 5) == 5 && e[1] == "jon");
 
 	string x[4] = { "cersei", "jaime", "jaime", "theon" };
 	string y[4] = { "daenerys", "jaime", "jon", "tyrion" };
 	string z[10];
+	//assert(mingle(x, 5, y, 4, z, 10) == 8 && z[5] == "jon"); //cannot detect the error 
 	assert(mingle(x, 4, y, 4, z, 10) == 8 && z[5] == "jon");
+	assert(mingle(x, 4, y, 0, z, 10) == 4 && z[1] == "jaime");
 
+	//assert(divide(h, 10, "jon") == 3); //cannot detect the error 
 	assert(divide(h, 7, "jon") == 3);
+	assert(divide(h, 7, "z") == 7);
+	assert(divide(h, 7, "") == 0);
+	assert(divide(h, 0, "jon") == 0);
 
 	cout << "All tests succeeded" << endl;
 	
