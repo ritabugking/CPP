@@ -6,7 +6,7 @@ using namespace std;
 
 
 
-//Return the number of strings in the array that are equal to target.[Of course, in this and other functions, if n is negative, the paragraph above that starts "Notwithstanding" trumps this by requiring that the function return −1.Also, in the description of this function and the others, when we say "the array", we mean the n elements that the function is aware of.] As noted above, case matters: Do not consider "jon" to be equal to "JoN".
+//Return the number of strings in the array that are equal to target.
 int tally(const string a[], int n, string target) {
 	int num = 0;
 	//int size = sizeof(a) / sizeof(a[0]); // Calculate the size of array a.
@@ -66,7 +66,7 @@ int positionOfMin(const string a[], int n) {
 //Eliminate the item at position pos by copying all elements after it one place to the left.Put the item that was thus eliminated into the last position of the array.Return the original position of the item that was moved to the end.Here's an example:
 int moveToEnd(string a[], int n, int pos) {
 	//int size = sizeof(a) / sizeof(a[0]); // Calculate the size of array a.
-	if (n < 0 )  // If the size of input array less than zero, or 
+	if (n < 0 || pos > n-1)  // If the size of input array less than zero, or 
 		return -1;
 	string temp = a[pos];
 	for (int i = pos; i < n-1; i++) {
@@ -78,7 +78,7 @@ int moveToEnd(string a[], int n, int pos) {
 //Eliminate the item at position pos by copying all elements before it one place to the right.Put the item that was thus eliminated into the first position of the array.Return the original position of the item that was moved to the beginning.Here's an example:
 int moveToBeginning(string a[], int n, int pos) {
 	//int size = sizeof(a) / sizeof(a[0]); // Calculate the size of array a.
-	if (n < 0 )  // If the size of input array less than zero, or 
+	if (n < 0 || pos > n - 1)  // If the size of input array less than zero, or 
 		return -1;
 	string temp = a[pos];
 	for (int i = pos; i > 0; i--) {
@@ -221,22 +221,74 @@ int divide(string a[], int n, string divider) {
 };
 int main() {
 	// Test
+	string a1[1] = { "" };
+	string a2[3] = { " ", " a ", " abc" };
+	string a3[4] = { "!!!@@", "\n", """", "{}" };
 	string h[7] = { "petyr", "jaime", "jon", "daenerys", "", "tyrion", "jon" };
+	string a5[8] = { "petyr", "petyr", "jon", "petyr", "petyr", "petyr", "jon", "jon" };
+	
+	//assert(tally(a1, 7, "jon") == 0);  // cannot detect this error
+	assert(tally(a1, 1, "jon") == 0);
+	assert(tally(a1, 1, "") == 1);
+	assert(tally(a1, 0, "") == 0);
+
+	assert(tally(a2, 3, "") == 0);
+	assert(tally(a2, 3, " ") == 1);
+	assert(tally(a2, 3, "a") == 0);
+	assert(tally(a2, 3, "abc") == 0);
+	assert(tally(a2, 3, " abc") == 1);
+
+	assert(tally(a3, 4, "\n") == 1);
+	assert(tally(a3, 4, """") == 1);
+	assert(tally(a3, 4, "{}") == 1);
+	assert(tally(a3, 4, "!!!@@") == 1);
+	
 	assert(tally(h, 7, "jon") == 2);
 	assert(tally(h, 7, "") == 1);
 	assert(tally(h, 7, "theon") == 0);
 	assert(tally(h, 0, "jon") == 0);
-	assert(findFirst(h, 7, "jon") == 2);
+
+	//assert(findFirst(h, 10, "jon") == 2);  //cannot detect the error
 	assert(findFirst(h, 2, "jon") == -1);
+	assert(findFirst(h, 3, "jon") == 2);
+	assert(findFirst(h, 7, "Jon") == -1);
+	assert(findFirst(a1, 1, "") == 0);
+	
 	int bg;
 	int en;
+	//assert(findFirstSequence(h, 10, "daenerys", bg, en) && bg == 3 && en == 3); //cannot detect the error 
 	assert(findFirstSequence(h, 7, "daenerys", bg, en) && bg == 3 && en == 3);
+	assert(findFirstSequence(a5, 8, "petyr", bg, en) && bg == 0 && en == 1);
+	assert(findFirstSequence(a5, 1, "petyr", bg, en) && bg == 0 && en == 0);
+	assert(findFirstSequence(a5, 8, "jon", bg, en) && bg == 2 && en == 2);
+	assert(findFirstSequence(a5, 8, "Jon", bg, en) && bg == -1 && en == -1);
+
 
 	string g[4] = { "petyr", "jaime", "daenerys", "tyrion" };
+	string a7[4] = { "aaaaa", "d", "  ", " " };
+	//assert(positionOfMin(g, 10) == 2); //cannot detect the error 
 	assert(positionOfMin(g, 4) == 2);
+	assert(positionOfMin(h, 7) == 4);
+	assert(positionOfMin(h, 0) == -1);
+	assert(positionOfMin(a5, 8) == 2);
+	assert(positionOfMin(a7, 2) == 0);
+	assert(positionOfMin(a7, 3) == 2);
+	assert(positionOfMin(a7, 4) == 3);
+
+	string a8[4] = { "petyr", "jaime", "daenerys", "tyrion" };
+	//assert(disagree(h, 10, g, 4) == 2);  //cannot detect the error 
 	assert(disagree(h, 4, g, 4) == 2);
+	assert(disagree(g, 3, g, 4) == 3);
+	assert(disagree(h, 0, g, 4) == -1);
+
+	//assert(subsequence(h, 10, g, 4));  //cannot detect the error 
 	assert(subsequence(h, 7, g, 4));
+	assert(subsequence(h, 0, g, 4)); //the empty sequence is a subsequence of any sequence
+
+	string a9[1] = { "petyr" };
+	assert(moveToEnd(g, 0, 1) == -1);
 	assert(moveToEnd(g, 4, 1) == 1 && g[1] == "daenerys" && g[3] == "jaime");
+	assert(moveToEnd(a9, 1, 0) == 0 && a9[0] == "petyr");
 
 	string f[4] = { "daenerys", "tyrion", "jon", "jaime" };
 	assert(moveToBeginning(f, 4, 2) == 2 && f[0] == "jon" && f[2] == "tyrion");
