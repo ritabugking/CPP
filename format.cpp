@@ -44,7 +44,7 @@ int format(int lineLength, istream& inf, ostream& outf)
 	bool hyphen = false;  // "-" appear
 	bool no_ws = false;	// Don't add white space in front of the word
 
-	for (int i = 0; inStr[i] != '\0'; i++) {   // Transfer the input string into the formatted output string
+	for (int i = 0; inStr[i] != '\0'; i++) {   // Transform the input string into the formatted output string
 
 		char singleStr[20000] = { '\0' };  // Each single string in text
 		int pos_singleStr = 0;   // The position of character in each single string
