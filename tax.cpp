@@ -9,7 +9,7 @@ int main() {
 	int round_tax = 0;
 	string identification;
 	string state;
-
+ 
 	//collect data and save them in variables
 	cout << "Market value (in millions): ";
 	cin >> marketValue;
