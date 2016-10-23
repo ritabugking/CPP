@@ -3,7 +3,7 @@
 #include <cstring>
 #include <cctype>
 #include <fstream>
-
+ 
 using namespace std;
 /*
 This function can format text from a plain text file into neatly arranged paragraphs with a particular maximum allowed line length.
