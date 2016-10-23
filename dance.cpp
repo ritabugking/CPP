@@ -11,7 +11,7 @@ bool isdirection(char dir) {
 	else
 		return false;
 }
-
+ 
 // The function can count the number of slash in a string from the first character to nth character of the string.
 int countSlash(int n, string str) {
 
