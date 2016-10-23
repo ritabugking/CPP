@@ -1,10 +1,10 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
 #include <cassert>
 
 using namespace std;
 
-
+ 
 // Return the number of strings in the array that are equal to target.
 int tally(const string a[], int n, string target) {
 	
